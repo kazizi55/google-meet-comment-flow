@@ -1,7 +1,6 @@
 export const injectComment = (message: string) => {
-  const screen = document.body;
-  const screenHeight = screen.offsetHeight;
-  const screenWidth = screen.offsetWidth;
+  const screenHeight = window.innerHeight;
+  const screenWidth = window.innerWidth;
 
   const comment = document.createElement("span");
 
@@ -23,8 +22,10 @@ export const injectComment = (message: string) => {
 
   comment.style["left"] = commentStyle["left"];
   comment.style["top"] = commentStyle["top"];
+  // TODO: make font size and color changable in setting popup
   comment.style["fontSize"] = commentStyle["fontSize"];
-  comment.style["color"] = "red";
+  comment.style["color"] = "black";
+
   comment.style["position"] = "absolute";
   comment.style["zIndex"] = "2147483647";
   comment.style["whiteSpace"] = "nowrap";
