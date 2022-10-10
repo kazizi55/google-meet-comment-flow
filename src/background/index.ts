@@ -1,5 +1,7 @@
 import { injectComment } from "./injectComment";
 
+const TARGET_KEY = "googleMeetCommentFlow";
+
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   switch (request.method) {
     case "setItem":
@@ -7,8 +9,12 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         googleMeetCommentFlow: request.value,
       });
       return true;
+    case "deleteItem":
+      console.log("testtest");
+      chrome.storage.local.remove([TARGET_KEY]);
+      return true;
     case "injectCommentToAllTabs":
-      chrome.storage.local.get(["googleMeetCommentFlow"]).then((res) => {
+      chrome.storage.local.get([TARGET_KEY]).then((res) => {
         chrome.tabs.query({}, (tabs) => {
           tabs.forEach((tab) => {
             if (!tab.id) return;
@@ -16,7 +22,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
             chrome.scripting.executeScript({
               target: { tabId: tab.id },
               func: injectComment,
-              args: [res["googleMeetCommentFlow"]],
+              args: [res[TARGET_KEY]],
             });
           });
         });
