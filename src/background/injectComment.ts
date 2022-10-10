@@ -30,7 +30,7 @@ export const injectComment = (message: string) => {
   comment.style["whiteSpace"] = "nowrap";
   comment.style["lineHeight"] = "initial";
 
-  comment.animate(
+  const streamCommentUI = comment.animate(
     {
       left: `${-comment.offsetWidth}px`,
     },
@@ -38,5 +38,10 @@ export const injectComment = (message: string) => {
       duration: 6000,
       easing: "linear",
     }
+  );
+
+  // NOTE: delete data in localStorage so that same comments can be sent in a row
+  streamCommentUI.ready.then(() =>
+    chrome.runtime.sendMessage({ method: "deleteItem" })
   );
 };
