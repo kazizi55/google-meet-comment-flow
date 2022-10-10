@@ -70,8 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const OBSERVE_CONFIG = {
     attributes: true,
     subtree: true,
-    childList: true,
-    characterData: true,
   };
 
   observer.observe(elem, OBSERVE_CONFIG);
