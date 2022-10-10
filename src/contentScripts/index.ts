@@ -13,12 +13,19 @@ const observer = new MutationObserver(() => {
   try {
     const thread = document.getElementsByClassName(CLASS_OBJ.thread)[0];
 
-    if (prevThread !== undefined && thread.isEqualNode(prevThread)) return;
-    if (thread.getElementsByClassName(CLASS_OBJ.isLoading).length === 1) return;
+    if (
+      !thread ||
+      thread.isEqualNode(prevThread) ||
+      thread.getElementsByClassName(CLASS_OBJ.isLoading).length === 1
+    )
+      return;
 
     prevThread = thread.cloneNode(true);
 
     const messages = thread.getElementsByClassName(CLASS_OBJ.message);
+
+    if (messages.length === 0) return;
+
     const message = messages[messages.length - 1].innerHTML;
 
     const screen = document.body;
