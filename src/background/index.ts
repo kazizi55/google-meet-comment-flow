@@ -10,7 +10,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       });
       return true;
     case "deleteItem":
-      console.log("testtest");
       chrome.storage.local.remove([TARGET_KEY]);
       return true;
     case "injectCommentToAllTabs":
