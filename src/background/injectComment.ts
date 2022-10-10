@@ -44,4 +44,8 @@ export const injectComment = (message: string) => {
   streamCommentUI.ready.then(() =>
     chrome.runtime.sendMessage({ method: "deleteItem" })
   );
+
+  streamCommentUI.onfinish = () => {
+    document.body.removeChild(comment);
+  };
 };
