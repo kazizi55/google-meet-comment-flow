@@ -1,38 +1,47 @@
 // FIXME
 export {};
 
-let prevThread: any;
+let prevThread: Node;
 
 const CLASS_OBJ = {
   thread: "z38b6",
-  messages: "oIy2qc",
-};
+  message: "oIy2qc",
+  isLoading: "gYckH",
+} as const;
 
-let observer = new MutationObserver((records) => {
+const observer = new MutationObserver(() => {
   try {
     const thread = document.getElementsByClassName(CLASS_OBJ.thread)[0];
 
-    if (prevThread != undefined && thread.isEqualNode(prevThread)) return;
-    if (thread.getElementsByClassName("gYckH").length == 1) return;
+    if (
+      !thread ||
+      thread.isEqualNode(prevThread) ||
+      thread.getElementsByClassName(CLASS_OBJ.isLoading).length === 1
+    )
+      return;
 
     prevThread = thread.cloneNode(true);
-    const messages = thread.getElementsByClassName(CLASS_OBJ.messages);
+
+    const messages = thread.getElementsByClassName(CLASS_OBJ.message);
+
+    if (messages.length === 0) return;
+
     const message = messages[messages.length - 1].innerHTML;
 
-    let screen = document.body;
-    let screenHeight = screen.offsetHeight;
-    let screenWidth = screen.offsetWidth;
+    const screen = document.body;
+    const screenHeight = screen.offsetHeight;
+    const screenWidth = screen.offsetWidth;
 
-    let comment = document.createElement("span");
+    const comment = document.createElement("span");
 
     comment.textContent = message;
-    document.getElementsByTagName("body")[0].appendChild(comment);
+    document.body.appendChild(comment);
 
-    let letterSize = screenHeight * 0.05 * 1;
+    const letterSize = screenHeight * 0.05 * 1;
     comment.setAttribute("class", "comment");
 
     const footerHeight = 88;
-    let topPosition = Math.floor(
+    const topPosition = Math.floor(
       (screenHeight - letterSize - footerHeight) * Math.random()
     );
     const commentStyle = {
@@ -60,19 +69,13 @@ let observer = new MutationObserver((records) => {
       }
     );
   } catch (e) {
-    return;
+    console.error(e);
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  let elem = document.body;
-
-  const OBSERVE_CONFIG = {
+document.addEventListener("DOMContentLoaded", () =>
+  observer.observe(document.body, {
     attributes: true,
     subtree: true,
-    childList: true,
-    characterData: true,
-  };
-
-  observer.observe(elem, OBSERVE_CONFIG);
-});
+  })
+);
