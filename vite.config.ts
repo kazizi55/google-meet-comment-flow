@@ -6,14 +6,21 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: "Google Meet Comment Flow",
   version: "1.0.0",
-  permissions: ["storage"],
+  permissions: ["storage", "tabs", "scripting"],
+  host_permissions: ["http://*/*", "https://*/*"],
   action: {
     default_popup: "index.html",
   },
+  background: { service_worker: "src/background/index.ts" },
   content_scripts: [
     {
       matches: ["https://meet.google.com/*"],
-      js: ["src/contentScripts/index.ts"],
+      js: ["src/contentScripts/saveComment.ts"],
+      run_at: "document_start",
+    },
+    {
+      matches: ["<all_urls>"],
+      js: ["src/contentScripts/streamComment.ts"],
       run_at: "document_start",
     },
   ],
