@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       chrome.storage.local.get([TARGET_KEY]).then((res) => {
         chrome.tabs.query({}, (tabs) => {
           tabs.forEach((tab) => {
-            if (!tab.id) return;
+            if (!tab.id || !res[TARGET_KEY]) return;
 
             chrome.scripting.executeScript({
               target: { tabId: tab.id },
