@@ -5,7 +5,24 @@ export const injectComment = (message: string) => {
   const comment = document.createElement("span");
 
   comment.textContent = message;
-  document.body.appendChild(comment);
+
+  // NOTE: google slide full screen mode elements
+  const gSlideContentNodes = document.getElementsByClassName(
+    "punch-full-screen-element"
+  );
+
+  /*
+  NOTE: When the focused tab is on google slide full screen mode,
+        target node is the specific div, whose z-index is max value
+        as the same as the value of streamed comments
+
+  SEE: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+  */
+  const targetNode = gSlideContentNodes.length
+    ? gSlideContentNodes[0]
+    : document.body;
+
+  targetNode.appendChild(comment);
 
   const letterSize = screenHeight * 0.05 * 1;
   comment.setAttribute("class", "google-meet-comment-flow");
@@ -47,6 +64,6 @@ export const injectComment = (message: string) => {
   );
 
   streamCommentUI.onfinish = () => {
-    document.body.removeChild(comment);
+    targetNode.removeChild(comment);
   };
 };
