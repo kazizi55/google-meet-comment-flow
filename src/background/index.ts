@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     case "deleteItem":
       chrome.storage.local.remove([TARGET_KEY]);
       return true;
-    case "injectCommentToAllTabs":
+    case "injectCommentToFocusedTab":
       const queryOptions = { active: true, lastFocusedWindow: true };
 
       chrome.storage.local.get([TARGET_KEY]).then((res) => {

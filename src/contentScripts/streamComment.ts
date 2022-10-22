@@ -1,5 +1,5 @@
 const streamComment = () => {
-  chrome.runtime.sendMessage({ method: "injectCommentToAllTabs" });
+  chrome.runtime.sendMessage({ method: "injectCommentToFocusedTab" });
 };
 
 chrome.storage.onChanged.addListener(streamComment);
