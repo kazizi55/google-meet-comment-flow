@@ -1,15 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+import "./index.css";
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-const root = document.createElement("div");
-root.id = "crx-root";
-document.body.append(root);
+const container = document.getElementById("root")!;
 
-ReactDOM.render(
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  root
+  </React.StrictMode>
 );
