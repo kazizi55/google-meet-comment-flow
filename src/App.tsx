@@ -1,45 +1,100 @@
-import { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0);
+const Colors = {
+  Black: "black",
+  Red: "red",
+  Orange: "orange",
+  Yellow: "yellow",
+  Green: "green",
+  Blue: "blue",
+  Indigo: "indigo",
+  Purple: "purple",
+} as const;
+
+type Color = typeof Colors[keyof typeof Colors];
+
+const FontSizes = { Xs: "XS", S: "S", M: "M", L: "L", Xl: "XL" } as const;
+
+type FontSize = typeof FontSizes[keyof typeof FontSizes];
+
+const App = () => {
+  const [color, setColor] = useState<Color>(Colors.Black);
+  const [fontSize, setFontSize] = useState<FontSize>(FontSizes.M);
+  const [isEnabledStreaming, setIsEnabledStreaming] = useState<boolean>(true);
+
+  const isColor = (value: string): value is Color => {
+    return value in Object.values(Colors);
+  };
+
+  const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = e.target.value;
+    if (!isColor(selected)) return;
+
+    setColor(selected);
+  };
+
+  const isFontSize = (value: string): value is FontSize => {
+    return value in Object.values(FontSizes);
+  };
+
+  const handleChangeFontSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = e.target.value;
+    if (!isFontSize(selected)) return;
+
+    setFontSize(selected);
+  };
+
+  const handleChangeIsEnabledStreaming = () => {
+    setIsEnabledStreaming(!isEnabledStreaming);
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="container">
+      <header>Google Meet Comment Flow</header>
+      <main>
+        <div className="form-group">
+          <label htmlFor="comment-color">Color</label>
+          <select
+            name="comment-color"
+            id="comment-color"
+            defaultValue={color}
+            onChange={handleChangeColor}
           >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
+            {Object.values(Colors).map((color) => (
+              <option value={color}>{color}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="comment-font-size">Font Size</label>
+          <select
+            name="comment-font-size"
+            id="comment-font-size"
+            defaultValue={fontSize}
+            onChange={handleChangeFontSize}
           >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+            {Object.values(FontSizes).map((fontSize) => (
+              <option value={fontSize}>{fontSize}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="toggle-btn">Enable Streaming</label>
+          <div id="toggle-btn" className="toggle-btn">
+            <input
+              id="toggle"
+              className="toggle-input"
+              type="checkbox"
+              checked={isEnabledStreaming}
+              onChange={handleChangeIsEnabledStreaming}
+            />
+            <label htmlFor="toggle" className="toggle-label" />
+          </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
 
 export default App;
