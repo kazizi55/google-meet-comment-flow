@@ -80,8 +80,8 @@ const App = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="toggle-btn">Enable Streaming</label>
-          <div id="toggle-btn" className="toggle-btn">
+          <label htmlFor="comment-enable-streaming">Enable Streaming</label>
+          <div id="comment-enable-streaming" className="toggle-btn">
             <input
               id="toggle"
               className="toggle-input"
