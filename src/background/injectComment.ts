@@ -6,9 +6,9 @@ export const injectComment = (message: string) => {
 
   comment.textContent = message;
 
-  // NOTE: google slide full screen mode elements
-  const gSlideContentNodes = document.getElementsByClassName(
-    "punch-full-screen-element"
+  // NOTE: google slide full screen mode element
+  const gSlideContentNode = document.querySelector(
+    "body > div.punch-full-screen-element.punch-full-window-overlay"
   );
 
   /*
@@ -18,9 +18,7 @@ export const injectComment = (message: string) => {
 
   SEE: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
   */
-  const targetNode = gSlideContentNodes.length
-    ? gSlideContentNodes[0]
-    : document.body;
+  const targetNode = gSlideContentNode || document.body;
 
   targetNode.appendChild(comment);
 

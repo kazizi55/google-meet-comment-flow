@@ -13,14 +13,12 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       chrome.storage.local.remove([TARGET_KEY]);
       return true;
     case "injectCommentToFocusedTab":
-      const queryOptions = { active: true, lastFocusedWindow: true };
-
       chrome.storage.local.get([TARGET_KEY]).then((res) => {
-        chrome.tabs.query(queryOptions, (tabs) => {
-          if (!tabs[0]?.id || !res[TARGET_KEY]) return;
+        chrome.tabs.getCurrent((tab) => {
+          if (!tab?.id || !res[TARGET_KEY]) return;
 
           chrome.scripting.executeScript({
-            target: { tabId: tabs[0].id },
+            target: { tabId: tab.id },
             func: injectComment,
             args: [res[TARGET_KEY]],
           });
