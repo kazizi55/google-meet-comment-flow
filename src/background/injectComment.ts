@@ -1,4 +1,5 @@
-export const injectComment = (message: string) => {
+export const injectComment = async (message: string) => {
+  console.log("injectComment");
   const screenHeight = window.innerHeight;
   const screenWidth = window.innerWidth;
 
@@ -22,7 +23,30 @@ export const injectComment = (message: string) => {
 
   targetNode.appendChild(comment);
 
-  const letterSize = screenHeight * 0.05 * 1;
+  const storedFontSizeMessage = await chrome.runtime.sendMessage({
+    method: "getFontSize",
+  });
+
+  console.log(storedFontSizeMessage);
+
+  const letterSizeCoefficient = () => {
+    switch (storedFontSizeMessage) {
+      case "XS":
+        return 0.25;
+      case "S":
+        return 0.5;
+      case "M":
+        return 1;
+      case "L":
+        return 2;
+      case "XL":
+        return 4;
+      default:
+        return 1;
+    }
+  };
+
+  const letterSize = screenHeight * 0.05 * letterSizeCoefficient();
   comment.setAttribute("class", "google-meet-comment-flow");
 
   const footerHeight = 88;
@@ -35,11 +59,15 @@ export const injectComment = (message: string) => {
     fontSize: `${letterSize}px`,
   };
 
+  const storedColorMessage = await chrome.runtime.sendMessage({
+    method: "getColor",
+  });
+
   comment.style["left"] = commentStyle["left"];
   comment.style["top"] = commentStyle["top"];
-  // TODO: make font size and color changable in setting popup
   comment.style["fontSize"] = commentStyle["fontSize"];
-  comment.style["color"] = "black";
+
+  comment.style["color"] = storedColorMessage || "black";
 
   comment.style["position"] = "absolute";
   comment.style["zIndex"] = "2147483647";
