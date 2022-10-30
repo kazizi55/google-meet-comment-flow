@@ -30,8 +30,37 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         });
       });
       return true;
-          });
-        });
+    case "setColor":
+      chrome.storage.local.set({
+        color: request.value,
+      });
+      return true;
+    case "getColor":
+      chrome.storage.local.get([StorageKeys.Color]).then((res) => {
+        if (!res[StorageKeys.Color]) return;
+        sendResponse(res[StorageKeys.Color]);
+      });
+      return true;
+    case "setFontSize":
+      chrome.storage.local.set({
+        fontSize: request.value,
+      });
+      return true;
+    case "getFontSize":
+      chrome.storage.local.get([StorageKeys.FontSize]).then((res) => {
+        if (!res[StorageKeys.FontSize]) return;
+        sendResponse(res[StorageKeys.FontSize]);
+      });
+      return true;
+    case "setIsEnabledStreaming":
+      chrome.storage.local.set({
+        isEnabledStreaming: request.value,
+      });
+      return true;
+    case "getIsEnabledStreaming":
+      chrome.storage.local.get([StorageKeys.IsEnabledStreaming]).then((res) => {
+        if (typeof res[StorageKeys.IsEnabledStreaming] !== "boolean") return;
+        sendResponse(res[StorageKeys.IsEnabledStreaming]);
       });
       return true;
     default:
