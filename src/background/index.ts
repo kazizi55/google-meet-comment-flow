@@ -19,11 +19,11 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       return true;
     case "injectCommentToFocusedTab":
       chrome.storage.local.get([StorageKeys.Comment]).then((res) => {
-        chrome.tabs.getCurrent((tab) => {
-          if (!tab?.id || !res[StorageKeys.Comment]) return;
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (!tabs[0]?.id || !res[StorageKeys.Comment]) return;
 
           chrome.scripting.executeScript({
-            target: { tabId: tab.id },
+            target: { tabId: tabs[0].id },
             func: injectComment,
             args: [res[StorageKeys.Comment]],
           });
