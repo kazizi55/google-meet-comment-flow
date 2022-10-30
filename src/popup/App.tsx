@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Colors = {
   Black: "black",
@@ -20,34 +20,91 @@ type FontSize = typeof FontSizes[keyof typeof FontSizes];
 
 const App = () => {
   const [color, setColor] = useState<Color>(Colors.Black);
+
   const [fontSize, setFontSize] = useState<FontSize>(FontSizes.M);
   const [isEnabledStreaming, setIsEnabledStreaming] = useState<boolean>(true);
 
   const isColor = (value: string): value is Color => {
-    return value in Object.values(Colors);
+    return Object.values(Colors).some((color) => color === value);
   };
 
   const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.value;
-    if (!isColor(selected)) return;
+    const value = e.target.value;
+    if (!isColor(value)) return;
 
-    setColor(selected);
+    setColor(value);
+    chrome.runtime.sendMessage({
+      method: "setColor",
+      value,
+    });
   };
 
   const isFontSize = (value: string): value is FontSize => {
-    return value in Object.values(FontSizes);
+    return Object.values(FontSizes).some((fontSize) => fontSize === value);
   };
 
   const handleChangeFontSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.value;
-    if (!isFontSize(selected)) return;
+    const value = e.target.value;
+    if (!isFontSize(value)) return;
 
-    setFontSize(selected);
+    setFontSize(value);
+    chrome.runtime.sendMessage({
+      method: "setFontSize",
+      value,
+    });
   };
 
   const handleChangeIsEnabledStreaming = () => {
-    setIsEnabledStreaming(!isEnabledStreaming);
+    const value = !isEnabledStreaming;
+
+    setIsEnabledStreaming(value);
+    chrome.runtime.sendMessage({
+      method: "setIsEnabledStreaming",
+      value,
+    });
   };
+
+  useEffect(() => {
+    const setDataFromLocalStorage = async () => {
+      try {
+        const storedColorMessage = chrome.runtime.sendMessage({
+          method: "getColor",
+        });
+        const storedFontSizeMessage = chrome.runtime.sendMessage({
+          method: "getFontSize",
+        });
+        const storedIsEnabledStreamingMessage = chrome.runtime.sendMessage({
+          method: "getIsEnabledStreaming",
+        });
+
+        const fetchedData = await Promise.all([
+          storedColorMessage,
+          storedFontSizeMessage,
+          storedIsEnabledStreamingMessage,
+        ]);
+
+        const storedColor = fetchedData[0];
+        const storedFontSize = fetchedData[1];
+        const storedIsEnabledStreaming = fetchedData[2];
+
+        if (storedColor && isColor(storedColor)) {
+          setColor(storedColor);
+        }
+
+        if (storedFontSize && isFontSize(storedFontSize)) {
+          setFontSize(storedFontSize);
+        }
+
+        if (typeof storedIsEnabledStreaming === "boolean") {
+          setIsEnabledStreaming(storedIsEnabledStreaming);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    setDataFromLocalStorage();
+  }, []);
 
   return (
     <div className="container">
@@ -58,7 +115,7 @@ const App = () => {
           <select
             name="comment-color"
             id="comment-color"
-            defaultValue={color}
+            value={color}
             onChange={handleChangeColor}
           >
             {Object.values(Colors).map((color) => (
@@ -71,7 +128,7 @@ const App = () => {
           <select
             name="comment-font-size"
             id="comment-font-size"
-            defaultValue={fontSize}
+            value={fontSize}
             onChange={handleChangeFontSize}
           >
             {Object.values(FontSizes).map((fontSize) => (
