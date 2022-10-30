@@ -1,26 +1,35 @@
 import { injectComment } from "./injectComment";
 
-const TARGET_KEY = "googleMeetCommentFlow";
+const StorageKeys = {
+  Comment: "comment",
+  Color: "color",
+  FontSize: "fontSize",
+  IsEnabledStreaming: "isEnabledStreaming",
+} as const;
 
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   switch (request.method) {
-    case "setItem":
+    case "setComment":
       chrome.storage.local.set({
-        googleMeetCommentFlow: request.value,
+        comment: request.value,
       });
       return true;
-    case "deleteItem":
-      chrome.storage.local.remove([TARGET_KEY]);
+    case "deleteComment":
+      chrome.storage.local.remove([StorageKeys.Comment]);
       return true;
     case "injectCommentToFocusedTab":
-      chrome.storage.local.get([TARGET_KEY]).then((res) => {
+      chrome.storage.local.get([StorageKeys.Comment]).then((res) => {
         chrome.tabs.getCurrent((tab) => {
-          if (!tab?.id || !res[TARGET_KEY]) return;
+          if (!tab?.id || !res[StorageKeys.Comment]) return;
 
           chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: injectComment,
-            args: [res[TARGET_KEY]],
+            args: [res[StorageKeys.Comment]],
+          });
+        });
+      });
+      return true;
           });
         });
       });

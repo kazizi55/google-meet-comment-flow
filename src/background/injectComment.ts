@@ -58,7 +58,7 @@ export const injectComment = (message: string) => {
 
   // NOTE: delete data in localStorage so that same comments can be sent in a row
   streamCommentUI.ready.then(() =>
-    chrome.runtime.sendMessage({ method: "deleteItem" })
+    chrome.runtime.sendMessage({ method: "deleteComment" })
   );
 
   streamCommentUI.onfinish = () => {

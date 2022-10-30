@@ -29,7 +29,7 @@ const observer = new MutationObserver(() => {
     const message = messages[messages.length - 1].innerHTML;
 
     chrome.runtime.sendMessage({
-      method: "setItem",
+      method: "setComment",
       value: message,
     });
   } catch (e) {
