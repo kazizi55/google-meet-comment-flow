@@ -9,8 +9,14 @@ const SELECTOR_OBJ = {
     "#ow3 > div.T4LgNb > div > div:nth-child(12) > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b > div.hWX4r > div > div.z38b6 > div > div.Zmm6We > div.gYckH",
 } as const;
 
-const observer = new MutationObserver(() => {
+const observer = new MutationObserver(async () => {
   try {
+    const isEnabledStreaming = await chrome.runtime.sendMessage({
+      method: "getIsEnabledStreaming",
+    });
+
+    if (!isEnabledStreaming) return;
+
     const thread = document.querySelector(SELECTOR_OBJ.thread);
 
     if (
@@ -29,7 +35,7 @@ const observer = new MutationObserver(() => {
     const message = messages[messages.length - 1].innerHTML;
 
     chrome.runtime.sendMessage({
-      method: "setItem",
+      method: "setComment",
       value: message,
     });
   } catch (e) {
