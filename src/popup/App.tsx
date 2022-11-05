@@ -22,7 +22,7 @@ const App = () => {
   const [color, setColor] = useState<Color>(Colors.Black);
 
   const [fontSize, setFontSize] = useState<FontSize>(FontSizes.M);
-  const [isEnabledStreaming, setIsEnabledStreaming] = useState<boolean>(true);
+  const [isEnabledStreaming, setIsEnabledStreaming] = useState<boolean>(false);
 
   const isColor = (value: string): value is Color => {
     return Object.values(Colors).some((color) => color === value);
