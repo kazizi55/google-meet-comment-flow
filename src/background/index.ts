@@ -37,7 +37,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       return true;
     case "getColor":
       chrome.storage.local.get([StorageKeys.Color]).then((res) => {
-        if (!res[StorageKeys.Color]) return;
         sendResponse(res[StorageKeys.Color]);
       });
       return true;
@@ -48,7 +47,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       return true;
     case "getFontSize":
       chrome.storage.local.get([StorageKeys.FontSize]).then((res) => {
-        if (!res[StorageKeys.FontSize]) return;
         sendResponse(res[StorageKeys.FontSize]);
       });
       return true;
