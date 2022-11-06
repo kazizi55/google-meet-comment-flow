@@ -1,5 +1,4 @@
 export const injectComment = async (message: string) => {
-  console.log("injectComment");
   const screenHeight = window.innerHeight;
   const screenWidth = window.innerWidth;
 
@@ -27,8 +26,6 @@ export const injectComment = async (message: string) => {
     method: "getFontSize",
   });
 
-  console.log(storedFontSizeMessage);
-
   const letterSizeCoefficient = () => {
     switch (storedFontSizeMessage) {
       case "XS":
@@ -50,9 +47,11 @@ export const injectComment = async (message: string) => {
   comment.setAttribute("class", "google-meet-comment-flow");
 
   const footerHeight = 88;
-  const topPosition = Math.floor(
-    (screenHeight - letterSize - footerHeight) * Math.random()
-  );
+  const scrollTopHeight = window.pageYOffset;
+  const topPosition =
+    scrollTopHeight +
+    Math.floor((screenHeight - letterSize - footerHeight) * Math.random());
+
   const commentStyle = {
     left: `${screenWidth}px`,
     top: `${topPosition}px`,
