@@ -1,5 +1,4 @@
 export const injectComment = async (message: string) => {
-  console.log("injectComment");
   const screenHeight = window.innerHeight;
   const screenWidth = window.innerWidth;
 
@@ -26,8 +25,6 @@ export const injectComment = async (message: string) => {
   const storedFontSizeMessage = await chrome.runtime.sendMessage({
     method: "getFontSize",
   });
-
-  console.log(storedFontSizeMessage);
 
   const letterSizeCoefficient = () => {
     switch (storedFontSizeMessage) {
