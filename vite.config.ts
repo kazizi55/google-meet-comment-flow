@@ -10,6 +10,7 @@ const manifest = defineManifest({
   host_permissions: ["http://*/*", "https://*/*"],
   action: {
     default_popup: "index.html",
+    default_icon: "logo.png",
   },
   background: { service_worker: "src/background/index.ts" },
   content_scripts: [
@@ -22,6 +23,9 @@ const manifest = defineManifest({
       run_at: "document_start",
     },
   ],
+  icons: {
+    128: "logo.png",
+  },
 });
 
 // https://vitejs.dev/config/
