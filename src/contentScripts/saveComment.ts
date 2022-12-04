@@ -1,12 +1,12 @@
 let prevThread: Node;
 
+const SELECTOR_BASE =
+  "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd d5LS6d'] > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b > div.hWX4r > div > div.z38b6";
+
 const SELECTOR_OBJ = {
-  thread:
-    "#ow3 > div.T4LgNb > div > div:nth-child(12) > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b > div.hWX4r > div > div.z38b6",
-  message:
-    "#ow3 > div.T4LgNb > div > div:nth-child(12) > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b > div.hWX4r > div > div.z38b6 > div > div.Zmm6We > div",
-  isLoading:
-    "#ow3 > div.T4LgNb > div > div:nth-child(12) > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b > div.hWX4r > div > div.z38b6 > div > div.Zmm6We > div.gYckH",
+  thread: SELECTOR_BASE,
+  message: `${SELECTOR_BASE}> div > div.Zmm6We > div`,
+  isLoading: `${SELECTOR_BASE} > div > div.Zmm6We > div.gYckH`,
 } as const;
 
 const observer = new MutationObserver(async () => {
