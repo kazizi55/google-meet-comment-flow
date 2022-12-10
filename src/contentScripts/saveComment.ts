@@ -45,7 +45,7 @@ const observer = new MutationObserver(async () => {
 
 document.addEventListener("DOMContentLoaded", () =>
   observer.observe(document.body, {
-    attributes: true,
     subtree: true,
+    childList: true,
   })
 );
