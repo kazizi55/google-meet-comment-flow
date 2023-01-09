@@ -39,7 +39,7 @@ export const injectComment = async (message: string) => {
       case "XL":
         return 4;
       default:
-        return 1;
+        return 2;
     }
   };
 
@@ -66,7 +66,7 @@ export const injectComment = async (message: string) => {
   comment.style["top"] = commentStyle["top"];
   comment.style["fontSize"] = commentStyle["fontSize"];
 
-  comment.style["color"] = storedColorMessage || "black";
+  comment.style["color"] = storedColorMessage || "green";
 
   comment.style["position"] = "absolute";
   comment.style["zIndex"] = "2147483647";
