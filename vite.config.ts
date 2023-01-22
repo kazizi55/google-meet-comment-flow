@@ -5,7 +5,7 @@ import { crx, defineManifest } from "@crxjs/vite-plugin";
 const manifest = defineManifest({
   manifest_version: 3,
   name: "Google Meet Comment Flow",
-  version: "1.0.2",
+  version: "1.0.3",
   permissions: ["storage", "scripting"],
   host_permissions: ["http://*/*", "https://*/*"],
   action: {
