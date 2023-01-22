@@ -12,7 +12,6 @@ const CHAT_SELECTOR_OBJ = {
 } as const;
 
 const CHAT_CLASS_OBJ = {
-  isLoading: "gYckH",
   isHidden: "qdulke",
 } as const;
 
@@ -20,8 +19,7 @@ const POPUP_MESSAGE_SELECTOR =
   "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd d5LS6d'] > div.crqnQb > div.J0M6X.nulMpf.Didmac.sOkDId > div.hEr73c.nTlZFe.P9KVBf > div.bY2KB.eISbSc > div[jsname='JDWQFb'] > button.L4MuL > div.ZuRxkd > div.cOEZgf.XkylE > div.LpG93b.xtO4Tc";
 
 const extractMessageFromPopup = (popup: Element | null): string | undefined => {
-  if (!popup || popup.isEqualNode(prevPopup)) return;
-  prevPopup = popup.cloneNode(true);
+  if (!popup) return;
 
   return popup.innerHTML;
 };
@@ -39,13 +37,15 @@ const extractMessageFromThread = (
 
   const messageNode = messageNodes[messageNodes.length - 1];
 
-  if (messageNode.classList.contains(CHAT_CLASS_OBJ.isLoading)) return;
-
   return messageNode.innerHTML;
 };
 
-const observer = new MutationObserver(async () => {
+const observer = new MutationObserver(async (mutations: MutationRecord[]) => {
   try {
+    const addedNode = mutations[0].addedNodes?.[0];
+
+    if (addedNode?.nodeType !== Node.ELEMENT_NODE) return;
+
     const isEnabledStreaming = await chrome.runtime.sendMessage({
       method: "getIsEnabledStreaming",
     });
