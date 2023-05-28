@@ -12,7 +12,7 @@ This is the Chrome Extension, which enables Google Meet comments to flow on the 
 
 You can install the extension from the link below
 
-https://chrome.google.com/webstore/detail/google-meet-comment-flow/pgcikjhhdihenofelcdnkgpohkphmemb
+https://chrome.google.com/webstore/detail/google-meet-comment-flow/nfhfbmbjgdkblicdmdplioanaochdhih
 
 ## 💻 Usage
 
