@@ -3,7 +3,7 @@ let prevThread: Node;
 let prevPopup: Node;
 
 const CHAT_SELECTOR_BASE =
-  "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd d5LS6d'] > div.crqnQb > div.R3Gmyc.qwU8Me > div.WUFI9b";
+  "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd'] > div.crqnQb > div.R3Gmyc.qwU8Me > div:nth-child(2) > div.WUFI9b";
 
 const CHAT_SELECTOR_OBJ = {
   container: CHAT_SELECTOR_BASE,
