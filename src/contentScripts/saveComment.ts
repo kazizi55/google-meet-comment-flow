@@ -7,15 +7,16 @@ const CHAT_SELECTOR_BASE =
 
 const CHAT_SELECTOR_OBJ = {
   container: CHAT_SELECTOR_BASE,
-  thread: `${CHAT_SELECTOR_BASE} > div.hWX4r > div > div.z38b6`,
-  message: `${CHAT_SELECTOR_BASE} > div.hWX4r > div > div.z38b6 > div > div.Zmm6We > div`,
+  thread: `${CHAT_SELECTOR_BASE} > div.hWX4r > div >div.hwhNhe >  div.z38b6`,
+  message: `${CHAT_SELECTOR_BASE} > div.hWX4r > div >div.hwhNhe > div.z38b6 > div > div.Zmm6We > div`,
 } as const;
 
 const CHAT_CLASS_OBJ = {
   isHidden: "qdulke",
 } as const;
 
-const POPUP_SELECTOR_BASE = "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd'] > div.crqnQb > div.fJsklc.nulMpf.Didmac.sOkDId"
+const POPUP_SELECTOR_BASE =
+  "#ow3 > div.T4LgNb > div > div[jsmodel='BA3Upd'] > div.crqnQb > div.fJsklc.nulMpf.Didmac.sOkDId";
 
 const POPUP_SELECTOR_OBJ = {
   container: POPUP_SELECTOR_BASE,
@@ -23,7 +24,9 @@ const POPUP_SELECTOR_OBJ = {
   message: `${POPUP_SELECTOR_BASE} > div.mIw6Bf.nTlZFe.P9KVBf > div.BQRwGe > div > div > button > div.ZuRxkd > div > div > div.LpG93b.xtO4Tc`,
 } as const;
 
-const extractMessageFromPopupThread = (popupThread: Element | null): string | undefined => {
+const extractMessageFromPopupThread = (
+  popupThread: Element | null
+): string | undefined => {
   if (!popupThread || popupThread.isEqualNode(prevPopupThread)) return;
 
   prevPopupThread = popupThread.cloneNode(true);
