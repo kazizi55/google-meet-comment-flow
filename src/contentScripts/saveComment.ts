@@ -1,3 +1,5 @@
+import { decodeHTMLSpecialWord } from "./utils/decodeHTMLSpecialWord";
+
 let prevThread: Node;
 
 let prevPopupThread: Node;
@@ -82,7 +84,7 @@ const observer = new MutationObserver(async (mutations: MutationRecord[]) => {
 
     chrome.runtime.sendMessage({
       method: "setComment",
-      value: message,
+      value: decodeHTMLSpecialWord(message),
     });
   } catch (e) {
     console.error(e);
